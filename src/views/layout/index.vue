@@ -5,7 +5,7 @@
 		<!-- /子路由出口 -->
 
 		<!-- 标签导航栏 -->
-		<van-tabbar  class="layout-tabbar" router>
+		<van-tabbar  class="layout-tabbar" route>
 			<van-tabbar-item to="/">
 				<i slot="icon" class="toutiao toutiao-shouye"></i>
 				<span class="text">首页</span>

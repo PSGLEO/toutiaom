@@ -4,8 +4,8 @@ import axios from 'axios'
 import store from '@/store'
 //创建一个axios实例对象
 const request =axios.create({
-  // baseURL:"http://toutiao-app.itheima.net", // 基础路径
-  baseURL:"http://192.168.11.56:8000", // 基础路径
+  baseURL:"http://toutiao-app.itheima.net", // 基础路径
+  // baseURL:"http://192.168.11.56:8000", // 基础路径
 })
 
 //请求拦截器

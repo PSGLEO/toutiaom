@@ -70,8 +70,8 @@ export default {
 	data() {
 		return {
 			user: {
-				mobile: '', //手机号
-				code: '', //验证码
+				mobile: '17754817548', //手机号
+				code: '246810', //验证码
 			},
 			//设置成属性变量，在上面调用
 			userFormRules: {

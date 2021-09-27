@@ -13,6 +13,9 @@ Vue.use(Vant)
 //加载动态设置的REM基准值
 import 'amfe-flexible'
 
+//加载dayjs
+import './utils/dayjs'
+
 Vue.config.productionTip = false
 
 new Vue({

@@ -8,3 +8,13 @@ export const getArticles=params=>{
     params
   })
 }
+
+
+//根据id获取指定文章
+
+export const getArticleById=articleId=>{
+  return request({
+    methods:'GET',
+    url: `/v1_0/articles/${articleId}`
+  })
+}

@@ -1,5 +1,10 @@
 <template>
-	<van-cell class="article-item">
+  <!-- :to="`/article/${article.art_id}`"  模板拼接路径-->
+ <!-- :to="'/article/' + article.art_id"   拼接路径 -->
+	<van-cell 
+  class="article-item"
+  :to="{name:'article',params:{articleId:article.art_id}}"
+  >
 		<!-- 标题插槽 -->
 		<template #title>
 			<div class="title">{{ article.title }}</div>

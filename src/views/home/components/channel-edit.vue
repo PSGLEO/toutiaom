@@ -108,7 +108,7 @@ export default {
 				this.$toast('获取所有频道数据失败')
 			}
 		},
-	async 	onAddChannels(channel) {
+	async onAddChannels(channel) {
 			// console.log(channel);
 			this.myChannels.push(channel)
       //数据持久化处理

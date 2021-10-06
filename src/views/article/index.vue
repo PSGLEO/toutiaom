@@ -37,27 +37,11 @@
 					<div slot="label" class="publish-date">
 						{{ article.pubdate | relativeTime }}
 					</div>
-          		<van-button
-              v-if="article.is_followed"
-              class="follow-btn"
-              round
-              size="small"
-              @click="onFollow"
-              :loading="followLoading"
-          >已关注</van-button>
-					<van-button
-          v-else
-             @click="onFollow"
-              :loading="followLoading"
+					<follow-user
 						class="follow-btn"
-						type="info"
-						color="#3296fa"
-						round
-						size="small"
-						icon="plus"
-						>关注</van-button
-					>
-			
+						:user-id="article.aut_id"
+						v-model="article.is_followed"
+					/>
 				</van-cell>
 				<!-- /用户信息 -->
 
@@ -68,6 +52,12 @@
 					v-html="article.content"
 				></div>
 				<van-divider>正文结束</van-divider>
+        <!-- 文章评论列表 -->
+        <comment-list
+        :source="article.art_id"
+        @onload-success="totalCommentCount=$event.total_count"
+        />
+        <!-- /文章评论列表 -->
 				<!-- 底部区域 -->
 				<div class="article-bottom">
 					<van-button
@@ -77,9 +67,25 @@
 						size="small"
 						>写评论</van-button
 					>
-					<van-icon name="comment-o" info="123" color="#777" />
-					<van-icon color="#777" name="star-o" />
-					<van-icon color="#777" name="good-job-o" />
+					<van-icon
+          name="comment-o" 
+          :info="totalCommentCount" 
+          color="#777" 
+          />
+					<collect-article
+						class="btn-item"
+						v-model="article.is_collected"
+						:article-id="article.art_id"
+					/>
+					<!-- <liek-article
+          class="btn-item"
+          v-model="article.attitude"
+          /> -->
+					<like-article 
+          class="btn-item" 
+          :article-id="article.art_id"
+          :attitudeNum.sync="article.attitude"
+           />
 					<van-icon name="share" color="#777777"></van-icon>
 				</div>
 				<!-- /底部区域 -->
@@ -110,10 +116,18 @@
 // 1.导入请求方法
 import { getArticleById } from '@/api/article'
 import { ImagePreview } from 'vant'
-import {addFollow,deleteFollow} from '@/api/user'
+import FollowUser from '@/components/follow-user'
+import CollectArticle from '@/components/collect-article'
+import LikeArticle from '@/components/like-article'
+import CommentList from './components/comment-list.vue'
 export default {
 	name: 'ArticleIndex',
-	components: {},
+	components: {
+		FollowUser,
+		CollectArticle,
+		LikeArticle,
+    CommentList
+	},
 	props: {
 		// 使用props获取动态路由的数据
 		articleId: {
@@ -126,7 +140,8 @@ export default {
 			article: {}, //2.定义变量存储文章详情
 			loading: true, //加载中的loading 状态
 			errStatus: 0, //失败状态码
-      followLoading:false  //控制是否处于加载中
+      totalCommentCount:0 //文章评论总数量
+			// followLoading:false  //控制是否处于加载中
 		}
 	},
 	computed: {},
@@ -190,38 +205,6 @@ export default {
 				}
 			})
 		},
-    async onFollow(){
-      //如果没有登录，就不允许操作
-      if(!this.$store.state.user) return this.$toast('请登录')
-
-      //开启按钮的loading状态
-      this.followLoading=true
-
-      try{
-          //如果已关注，则取消关注
-          const authorId=this.article.aut_id
-          if(this.article.is_followed){
-            await deleteFollow(authorId)
-          }else{
-            //否则添加关注
-            await addFollow(authorId)
-          }
-          //更新视图
-          this.article.is_followed=!this.article.is_followed
-      }catch(err){
-        // console.log(err);
-        // // console.log('关注失败',err);
-        // this.$toast('关注失败，请重试')
-        if(err&&err.response.status===400){
-          this.$toast('你不能关注自己')
-        }else{
-           this.$toast.fail('操作失败')
-        }
-
-      }
-      //关闭按钮的 loading 状态
-      this.followLoading=false
-    }
 	},
 }
 </script>
@@ -332,7 +315,7 @@ export default {
 			line-height: 46px;
 			color: #a7a7a7;
 		}
-		.van-icon {
+		/deep/.van-icon {
 			font-size: 40px;
 			.van-info {
 				font-size: 16px;

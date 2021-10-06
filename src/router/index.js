@@ -1,27 +1,56 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
+//路由表
 const routes = [
+	{
+		path: '/login',
+		name: 'login',
+		component: () => import('@/views/login'),
+	},
+	{
+		path: '/',
+		component: () => import('@/views/layout'),
+		children: [
+			{
+				path: '', //默认子路由
+				name: 'home',
+				component: () => import('@/views/home'),
+			},
+			{
+				path: '/qa', //默认子路由
+				name: 'qa',
+				component: () => import('@/views/qa'),
+			},
+			{
+				path: '/video', //默认子路由
+				name: 'video',
+				component: () => import('@/views/video'),
+			},
+			{
+				path: '/my', //默认子路由
+				name: 'my',
+				component: () => import('@/views/my'),
+			},
+		],
+	},
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path:'/search',
+    component:()=>import('@/views/search')
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/article/:articleId',
+    name: 'article',
+    component: () => import('@/views/article'),
+    // 将路由动态参数映射到组件的 props 中，更推荐这种做法
+    props: true
   }
 ]
 
 const router = new VueRouter({
-  routes
+	routes,
 })
 
 export default router

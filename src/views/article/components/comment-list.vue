@@ -3,11 +3,13 @@
 		v-model="loading"
 		:finished="finished"
 		finished-text="没有更多了"
+          :immediate-check="false" 
 		@load="onLoad"
 	>
 		<comment-item
 			v-for="(item, index) in list"
 			:key="index"
+      @reply-click="$emit('reply-click',$event)"
       :comment="item"
     />
 	</van-list>
@@ -25,10 +27,23 @@ export default {
 			type: [Number, String, Object],
 			required: true,
 		},
+    //自定义属性list 去接收外面的commentList变量
+    list:{
+      type:Array,
+      default:()=>[]
+    },
+    type:{
+      type:String,
+      //自定义 prop 数据验证
+      validator(value){
+        return ['a','c'].includes(value)
+      },
+      default:'a'
+    }
 	},
 	data() {
 		return {
-			list: [], // 评论列表
+			// list: [], // 评论列表
 			loading: false, // 上拉加载更多的 loading
 			finished: false, // 是否加载结束
 			offset: null, // 获取下一页数据的标记
@@ -37,6 +52,7 @@ export default {
 		}
 	},
   created(){
+    this.loading=true
     this.onLoad()
   },
 
@@ -45,7 +61,7 @@ export default {
 			try {
 				// 1.请求获取数据
 				const { data } = await getComments({
-					type: 'a', //评论类型，a-对文章(article)的评论，c-对评论(comment)的回复
+					type: this.type, //评论类型，a-对文章(article)的评论，c-对评论(comment)的回复
 					source: this.source.toString(),
 					offset: this.offset,
 					limit: this.limit, //获取评论个数

@@ -11,6 +11,8 @@
 						fit="cover"
 						:src="userInfo.photo"
 					/>
+						<!-- :src="userInfo.photo" -->
+
 					<span class="name">{{userInfo.name}}</span>
 				</div>
 				<div class="right">

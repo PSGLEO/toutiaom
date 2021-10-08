@@ -185,6 +185,12 @@ export default {
 		// 4.调用方法
 		this.loadArticle()
 	},
+  provide: function(){
+    return {
+      articleId:this.articleId //或者写成 this.$route.params.articleId 也可以
+      //不能写成 articleId:this.article.art_id 因为是异步请求数据，后面才会有
+    }
+  },
 	mounted() {},
 	methods: {
 		// 3.定义获取数据请求方法
@@ -254,6 +260,7 @@ export default {
       this.currentComment=comment
       //打开弹出层
       this.isReplyShow=true
+      console.log('111');
     }
 	},
 }

@@ -32,6 +32,20 @@ export default {
     target:{
       type:[Number,String,Object],
       required:true
+    },
+    type:{
+      type:String,
+      //自定义 prop 数据验证
+      validator(value){
+        return ['a','c'].includes(value)
+      },
+      default:'a'
+    }
+  },
+  inject:{
+    articleId:{
+      type:[Number,String,Object],
+      default:null
     }
   },
   computed: {},
@@ -45,7 +59,7 @@ export default {
         const {data} =await addComment({
          target:this.target.toString(),
          content:this.message,
-         art_id:null
+         art_id:this.type==='a'?num:this.articleId.toString()
 
         })
         this.$toast.success('发布成功')

@@ -28,6 +28,7 @@ export default {
 			required: true,
 		},
     //自定义属性list 去接收外面的commentList变量
+    // 只要不往数组中新增数据，在props中就不算改变数组
     list:{
       type:Array,
       default:()=>[]

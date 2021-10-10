@@ -103,7 +103,7 @@ import UpdatePhoto from './components/update-photo.vue'
 export default {
 	name: 'UserProfile',
 	components: {
-    UpdateName,
+
     UpdateName,
     UpdateGender,
     UpdateBirthday,

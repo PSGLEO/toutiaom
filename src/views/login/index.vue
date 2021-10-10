@@ -121,7 +121,10 @@ export default {
         //存储数据，存储到仓库中
         this.$store.commit('setUser',data.data)
 				this.$toast.success('登录成功')
-        this.$router.back()
+        // this.$router.back()
+        let url=this.$route.query.url
+        this.$router.replace( url || '/my')
+
 			} catch (err) {
 				if (err.response.status === 400) {
 					this.$toast.fail('手机号或验证码错误')

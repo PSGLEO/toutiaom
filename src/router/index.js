@@ -48,7 +48,7 @@ const routes = [
     path:'/user/profile',
     name:'user-profile',
     component:()=>import('@/views/user-profile'),
-    props:true
+    // props:true
   }
 ]
 
